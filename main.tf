@@ -202,7 +202,7 @@ resource "cloudflare_dns_record" "cname_metrics4" {
 }
 
 resource "cloudflare_dns_record" "cname_turn1" {
-  content = "instance2.${local.domain}"
+  content = "instance1.${local.domain}"
   name    = "turn1"
   proxied = false
   ttl     = 1
@@ -211,7 +211,7 @@ resource "cloudflare_dns_record" "cname_turn1" {
 }
 
 resource "cloudflare_dns_record" "cname_turn2" {
-  content = "instance1.${local.domain}"
+  content = "instance2.${local.domain}"
   name    = "turn2"
   proxied = false
   ttl     = 1
