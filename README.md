@@ -1,7 +1,7 @@
 # tf-infra
 
-![License](https://img.shields.io/github/license/rpPH4kQocMjkm2Ve/tf-infra)
-[![Spec](https://img.shields.io/endpoint?url=https://gitlab.com/fkzys/specs/-/raw/main/version.json&maxAge=300)](https://gitlab.com/fkzys/specs)
+![License](https://img.shields.io/github/license/fkzys/tf-infra)
+[![Spec](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/fkzys/specs/refs/heads/main/version.json&maxAge=300)](https://github.com/fkzys/specs)
 
 Cloudflare DNS infrastructure as code — zone and DNS records managed via Terraform with SOPS-encrypted secrets.
 
