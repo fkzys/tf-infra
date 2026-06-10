@@ -2,7 +2,7 @@ terraform {
   cloud {
     organization = "fkzys"
     workspaces {
-      name = "cf-infra"
+      name = "cf-infrav2"
     }
   }
 
@@ -166,8 +166,17 @@ resource "cloudflare_dns_record" "cname_matrix_rtc" {
 }
 
 resource "cloudflare_dns_record" "cname_meet" {
-  content = "instance1.${local.domain}"
+  content = "instance2.${local.domain}"
   name    = "meet"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  zone_id = local.zone_id
+}
+
+resource "cloudflare_dns_record" "cname_meet_test" {
+  content = "instance2.${local.domain}"
+  name    = "meet-test"
   proxied = false
   ttl     = 1
   type    = "CNAME"
