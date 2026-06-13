@@ -49,15 +49,6 @@ resource "cloudflare_zone" "main" {
 # A records
 # ─────────────────────────────────────────────
 
-resource "cloudflare_dns_record" "a_instance1" {
-  content = local.s["ip_instance1_v4"]
-  name    = "instance1"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  zone_id = local.zone_id
-}
-
 resource "cloudflare_dns_record" "a_instance2" {
   content = local.s["ip_instance2_v4"]
   name    = "instance2"
@@ -76,43 +67,12 @@ resource "cloudflare_dns_record" "a_instance3" {
   zone_id = local.zone_id
 }
 
-resource "cloudflare_dns_record" "a_instance4" {
-  content = local.s["ip_instance4_v4"]
-  name    = "instance4"
-  proxied = false
-  ttl     = 1
-  type    = "A"
-  zone_id = local.zone_id
-}
-
 resource "cloudflare_dns_record" "a_root" {
   content = local.s["ip_instance2_v4"]
   name    = local.domain
   proxied = false
   ttl     = 1
   type    = "A"
-  zone_id = local.zone_id
-}
-
-# ─────────────────────────────────────────────
-# AAAA records
-# ─────────────────────────────────────────────
-
-resource "cloudflare_dns_record" "aaaa_instance3" {
-  content = local.s["ip_instance3_v6"]
-  name    = "instance3"
-  proxied = false
-  ttl     = 1
-  type    = "AAAA"
-  zone_id = local.zone_id
-}
-
-resource "cloudflare_dns_record" "aaaa_instance4" {
-  content = local.s["ip_instance4_v6"]
-  name    = "instance4"
-  proxied = false
-  ttl     = 1
-  type    = "AAAA"
   zone_id = local.zone_id
 }
 
@@ -183,15 +143,6 @@ resource "cloudflare_dns_record" "cname_meet_test" {
   zone_id = local.zone_id
 }
 
-resource "cloudflare_dns_record" "cname_metrics1" {
-  content = "instance1.${local.domain}"
-  name    = "metrics1"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  zone_id = local.zone_id
-}
-
 resource "cloudflare_dns_record" "cname_metrics2" {
   content = "instance2.${local.domain}"
   name    = "metrics2"
@@ -205,33 +156,6 @@ resource "cloudflare_dns_record" "cname_metrics3" {
   content = "instance3.${local.domain}"
   name    = "metrics3"
   proxied = true
-  ttl     = 1
-  type    = "CNAME"
-  zone_id = local.zone_id
-}
-
-resource "cloudflare_dns_record" "cname_metrics4" {
-  content = "instance4.${local.domain}"
-  name    = "metrics4"
-  proxied = true
-  ttl     = 1
-  type    = "CNAME"
-  zone_id = local.zone_id
-}
-
-resource "cloudflare_dns_record" "cname_turn1" {
-  content = "instance1.${local.domain}"
-  name    = "turn1"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  zone_id = local.zone_id
-}
-
-resource "cloudflare_dns_record" "cname_turn2" {
-  content = "instance2.${local.domain}"
-  name    = "turn2"
-  proxied = false
   ttl     = 1
   type    = "CNAME"
   zone_id = local.zone_id
