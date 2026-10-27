@@ -24,17 +24,16 @@ All sensitive values (API tokens, IPs, domain) are stored in `secrets.enc.yaml`,
 | Resource type | Records |
 |---------------|---------|
 | **Zone** | One Cloudflare zone (full DNS setup) |
-| **A** | `instance1–4`, `meet`, `metrics3`, `metrics4`, root (`@`) |
-| **AAAA** | `metrics3`, `metrics4` |
-| **CNAME** | `cloud`, `element`, `matrix`, `matrix-admin`, `metrics1`, `metrics2`, `turn1`, `turn2` |
+| **A** | `instance2`, `instance3`, root (`@`) |
+| **CNAME** | `cloud`, `element`, `matrix`, `matrix-admin`, `matrix-rtc`, `meet`, `meet-test`, `metrics2`, `metrics3` |
 
-Records for `metrics3` and `metrics4` are proxied through Cloudflare. All others are DNS-only.
+All CNAMEs point to `instance2.<domain>`, except `metrics3`, which points to `instance3.<domain>`. Only `metrics3` is proxied through Cloudflare; all other records are DNS-only. The root (`@`) A record uses the `instance2` IPv4 address.
 
 ## Prerequisites
 
-- [Terraform](https://developer.hashicorp.com/terraform/install) ≥ 1.0
+- [Terraform](https://developer.hashicorp.com/terraform/install) ≥ 1.1 (the `cloud` block is used)
 - [SOPS](https://github.com/getsops/sops) ≥ 3.7
-- [age](https://github.com/FiloSottile/age) — decryption key at `~/.age/key.txt` (or set `SOPS_AGE_KEY_FILE`)
+- [age](https://github.com/FiloSottile/age) — decryption key at `~/keys/age/sops-pq.txt` by default (override with `SOPS_AGE_KEY_FILE`)
 - [direnv](https://direnv.net/) *(optional, autoloads `.envrc`)*
 - Access to the `fkzys` Terraform Cloud organization
 
@@ -44,13 +43,13 @@ Records for `metrics3` and `metrics4` are proxied through Cloudflare. All others
 
    ```bash
    git clone <repo-url>
-   cd cf-infra
+   cd tf-infra
    ```
 
 2. **Ensure the age key is in place:**
 
    ```bash
-   ls ~/.age/key.txt
+   ls ~/keys/age/sops-pq.txt
    ```
 
    The key must match the recipient defined in `.sops.yaml`.
@@ -90,8 +89,8 @@ Secrets are encrypted with SOPS + age. The encrypted file `secrets.enc.yaml` con
 | `cloudflare_account_id` | Cloudflare account ID |
 | `terraform_cloud_token` | Terraform Cloud API token |
 | `domain` | Domain name |
-| `ip_instance{1–4}_v4` | IPv4 addresses for instances 1–4 |
-| `ip_instance{3,4}_v6` | IPv6 addresses for instances 3–4 |
+| `ip_instance2_v4` | IPv4 address for instance 2 (also used for the root A record) |
+| `ip_instance3_v4` | IPv4 address for instance 3 |
 
 **Editing secrets:**
 
@@ -126,4 +125,4 @@ SOPS configuration (`.sops.yaml`) encrypts all `*.enc.yaml` files with the age r
 | [cloudflare/cloudflare](https://registry.terraform.io/providers/cloudflare/cloudflare/latest) | `~> 5.18.0` | Zone and DNS record management |
 | [carlpett/sops](https://registry.terraform.io/providers/carlpett/sops/latest) | `~> 1.4.1` | Decrypt SOPS-encrypted secrets |
 
-State is stored remotely in [Terraform Cloud](https://app.terraform.io/) (organization `fkzys`, workspace `cf-infra`).
+State is stored remotely in [Terraform Cloud](https://app.terraform.io/) (organization `fkzys`, workspace `cf-infrav2`).
